@@ -1,0 +1,25 @@
+{
+  "name": "employeedb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mikefedele/EmployeeDB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mikefedele/EmployeeDB/issues"
+  },
+  "homepage": "https://github.com/Mikefedele/EmployeeDB#readme",
+  "dependencies": {
+    "inquirer": "^8.2.2",
+    "mysql2": "^2.3.3"
+  }
+}
