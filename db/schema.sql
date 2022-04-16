@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS myCompany_db;
 CREATE DATABASE myCompany_db;
 
 USE myCompany_db;
-SELECT DATABASE ();
+/* SELECT DATABASE (); */
 
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT,
@@ -17,19 +17,19 @@ CREATE TABLE role (
   department_id INT,
   FOREIGN KEY (department_id)
   REFERENCES department(id)
-  ON DELETE SET NULL  
+  ON DELETE CASCADE
 ); 
 
 CREATE TABLE employee (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
-  last_name VARCHAR(30),
-  role_id INT,
+  last_name VARCHAR(30) NOT NULL,
+  role_id INT NOT NULL,
   FOREIGN KEY (role_id)
   REFERENCES role(id)
-  ON DELETE SET NULL,
-  manager_id INT
-  /* FOREIGN KEY (employee_id)
+  ON DELETE CASCADE,
+  manager_id INT,
+  FOREIGN KEY (manager_id)
   REFERENCES employee(id)
-  ON DELETE SET NULL  */
+  ON DELETE SET NULL 
 );
