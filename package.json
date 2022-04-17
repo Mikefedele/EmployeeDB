@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Mikefedele/EmployeeDB#readme",
   "dependencies": {
+    "console-table-printer": "^2.11.0",
     "express": "^4.17.3",
     "inquirer": "^8.2.2",
     "mysql2": "^2.3.3"

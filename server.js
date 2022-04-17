@@ -1,38 +1,35 @@
-const { log } = require('console');
-const express = require('express');
+const { log } = require("console");
+//express app & path only for routes
+const express = require("express");
 const app = express();
-
-// Import and require mysql2 
 const PORT = process.env.PORT || 3001;
-const DB = require('./DB')
-// Express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+const routes = require('./routes')
+app.use(routes)
 
-// Connect to database
+// const path = require('path');
+//const router = require('router');
+// Import and require mysql2
+//constructor to connect to SQL
+const DB = require("./DB");
 
 
-// db.query('DESCRIBE employee', function (err, results){
-  // console.table(results)
-// })
-
-// Default response for any other request (Not Found)
-// app.use((req, res) => {
-//   // res.status(404).end();
+// app.get("/api/departments", (req, res) => {
+//   DB.getDepartments()
+//     .then(([departmentResponse]) => res.json(departmentResponse))
+//     .catch((err) => res.json(err));
 // });
-
-// DB.getDepartments().then(([res]) => console.log(res));
-
-app.get('/api/departments',(req, res) =>{
-DB.getDepartments().then(([departmentResponse]) => res.json(departmentResponse)
-)
-.catch(err => res.json(err)); 
-})
-app.get('/api/company',(req, res) =>{
-  DB.getAllEmployees().then(([employeeResponse]) => res.json(employeeResponse)
-  )
-  .catch(err => res.json(err)); 
-  })
+// app.get("/api/company", (req, res) => {
+//   DB.getAllEmployees()
+//     .then(([employeeResponse]) => res.json(employeeResponse))
+//     .catch((err) => res.json(err));
+// });
+// app.get("/api/roles", (req, res) => {
+//   DB.getRoles()
+//     .then(([roleResponse]) => res.json(roleResponse))
+//     .catch((err) => res.json(err));
+// });
 
 //todo listen PORT
 app.listen(PORT, () => {

@@ -15,74 +15,24 @@ getDepartments () {
 getAllEmployees() {
   return this.connection.promise().query('SELECT * FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id')
 }
+getEmployeeList() {
+  return this.connection.promise().query('SELECT id, first_name, last_name FROM employee')
 }
+
+getRoles(){
+  return this.connection.promise().query('SELECT * FROM role LEFT JOIN department on role.department_id = department.id')
+}
+
+addEmployee(employee){
+  return this.connection.promise().query("INSERT INTO employee SET ?", employee)
+}
+};
 
 
 module.exports = new DB (connection)
-// employeeArray = [];
-// function home() {
-  
 
-//   return inquire([
-//     {
-//       type: "list",
-//       name: "start",
-//       message: "What would you like to do?",
-//       choices: [
-//         "View all Employees",
-//         "Add Employee",
-//         "Update Employee Role",
-//         "View All Roles",
-//         "Add Role",
-//         "View All Departments",
-//         "Add Department",
-//       ],
-//     },
-    
-//     {
-//       type: "input",
-//       message: "Where do you go to school?",
-//       name: "school",
-//       when: (response) => {
-//         if (response) return true;
-//       },
-//     },
-   
-//   ]).then (console.log(response));
-// }
 
-// employeePrompts = () => {
-//  inquire([
-//   {
-//       type: "input",
-//       message: "First Name?",
-//       name: "firstName",
-// },
-// {
-//   type: "input",
-//   message: "Last Name?",
-//   name: "lastName",
-// },
-// {
-//       type: "input",
-//       message: "Company ID?",
-//       name: "id",
-//     },
-//     {
-//       type: "confirm",
-//       message: "Do you have a manager?",
-//       name: "managerQuestion",
-//     },
-//     {
-//       type: "input",
-//       message: "What is the manager id?",
-//       name: "managerAnswer",
-//       when: (response.manager === true), 
-      
-      
-//     },  
-// ])
-// };
+
 // // 
 
 // rolePrompts = () => {
