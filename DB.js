@@ -24,8 +24,23 @@ getRoles(){
 }
 
 addEmployee(employee){
-  return this.connection.promise().query("INSERT INTO employee SET ?", employee)
+  return this.connection.promise().query("INSERT INTO employee SET ?",  employee)
+  
 }
+
+updateRole(answers){
+  return this.connection.promise().query("UPDATE employee SET role_id = ? WHERE employee.id = ?", [answers.roleUpdateQuestion, answers.updateEmployeeRole])
+}
+
+addDepartment(department){
+  return this.connection.promise().query("INSERT INTO department SET ?",  department)
+ 
+}
+
+addRole() {
+return this.connection.promise().query("INSERT INTO employee SET ?", role)
+}
+
 };
 
 
