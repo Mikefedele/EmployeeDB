@@ -1,12 +1,12 @@
 const inquire = require("inquirer");
 const DB = require("./DB");
 const { printTable } = require("console-table-printer");
-const { getRoles, getDepartments } = require("./DB");
+const { getRoles, getDepartments, addRole } = require("./DB");
 const connection = require("./db/connection");
 
 //* DON'T USE NODEMON!!! Freezes the inquirer controls
 const mainMenu = () => {
-  return inquire
+  inquire
     .prompt([
       {
         type: "list",
@@ -23,7 +23,7 @@ const mainMenu = () => {
         ],
       },
     ])
-    .then((response) => {
+    .then((response) =>  {
       switch (response.start) {
         case "View all Employees":
           DB.getAllEmployees().then(([rows]) => printTable(rows));
@@ -35,6 +35,7 @@ const mainMenu = () => {
 
         case "Update Employee Role":
           updateRole();
+
           break;
 
         case "View All Roles":
@@ -42,12 +43,16 @@ const mainMenu = () => {
           break;
 
         case "View All Departments":
-          DB.getDepartments().then(([rows]) => printTable(rows));
+          DB.getDepartments().then(([rows]) => printTable(rows)).then(mainMenu());
           break;
 
         case "Add Department":
           addDepartment();
           break;
+
+        case "Add Role":
+          newRole();
+          break
 
         default:
           break;
@@ -55,6 +60,8 @@ const mainMenu = () => {
     });
 };
 mainMenu();
+
+
 const addEmployee = async () => {
   const [employeeList] = await DB.getEmployeeList();
   const managerArray = employeeList.map((manager) => ({
@@ -116,7 +123,7 @@ const addDepartment = () => {
       department = {
         name: answers.newDepartment,
       };
-      DB.addDepartment(department).then((res) => console.table(res));
+      DB.addDepartment(department).then(([rows]) => printTable(rows));
     });
 };
 const updateRole = async () => {
@@ -151,6 +158,40 @@ const updateRole = async () => {
       DB.updateRole(answers).then((res) => console.table(res));
     });
 };
-// );
 
-// };
+
+const newRole = async () => {
+  const [deptList] = await DB.getDepartments();
+  const deptArray = deptList.map((department) => ({
+    name: department.name,
+    value: department.id,    
+  }));
+  inquire
+  .prompt([
+    {
+      type: "list",
+      message: "Which department is the new role in?",
+      name: "newRoleDept",
+      choices: deptArray,
+    },
+    {
+      type: "input",
+      message: "New role's title?",
+      name: "roleTitle",
+    },
+    {
+      type: "input",
+      message: "New Role's salary?",
+      name: "roleSalary",
+    },
+  ])
+  .then((answers) => {
+    console.log(answers);
+    const role = {
+      title: answers.roleTitle,
+      salary: answers.roleSalary,
+      department_id: answers.newRoleDept,
+    };
+    DB.addRole(role).then((res) => console.table(res));
+  });
+}
