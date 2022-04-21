@@ -26,11 +26,14 @@ const mainMenu = () => {
     .then(async (response) => {
       switch (response.start) {
         case "View all Employees":
-          await DB.getAllEmployees().then(([rows]) => printTable(rows));
+          await DB.getAllEmployees().then(([rows]) => {
+            printTable(rows);
+            mainMenu();
+          });
           break;
 
         case "Add Employee":
-          await addEmployee();        
+          addEmployee();
           break;
 
         case "Update Employee Role":
@@ -38,20 +41,25 @@ const mainMenu = () => {
           break;
 
         case "View All Roles":
-          await DB.getRoles().then(([rows]) => printTable(rows));
+          await DB.getRoles().then(([rows]) => {
+            printTable(rows);
+            mainMenu();
+          });
           break;
 
         case "View All Departments":
-          await DB.getDepartments()
-            .then(([rows]) => printTable(rows))        
-             break;
+          await DB.getDepartments().then(([rows]) => {
+            printTable(rows);
+            mainMenu();
+          });
+          break;
 
         case "Add Department":
-         await addDepartment();
+          await addDepartment();
           break;
 
         case "Add Role":
-         await newRole();
+          await newRole();
           break;
 
         default:
@@ -104,7 +112,10 @@ const addEmployee = async () => {
         role_id: answers.roleQuestion,
         manager_id: answers.managerQuestion,
       };
-      DB.addEmployee(employee).then((res) => console.log(res));
+      DB.addEmployee(employee).then((res) => {
+        console.log(res);
+        mainMenu();
+      });
     });
 };
 
@@ -123,6 +134,7 @@ const addDepartment = () => {
         name: answers.newDepartment,
       };
       DB.addDepartment(department);
+      mainMenu();
     });
 };
 const updateRole = async () => {
@@ -155,6 +167,7 @@ const updateRole = async () => {
     // todo consolelog answers to see what i got
     .then((answers) => {
       DB.updateRole(answers).then((res) => console.table(res));
+      mainMenu();
     });
 };
 
@@ -191,6 +204,6 @@ const newRole = async () => {
         department_id: answers.newRoleDept,
       };
       DB.addRole(role).then((res) => console.table(res));
+      mainMenu();
     });
 };
-
