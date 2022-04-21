@@ -23,36 +23,36 @@ const mainMenu = () => {
         ],
       },
     ])
-    .then((response) =>  {
+    .then(async (response) => {
       switch (response.start) {
         case "View all Employees":
-          DB.getAllEmployees().then(([rows]) => printTable(rows));
+          await DB.getAllEmployees().then(([rows]) => printTable(rows));
           break;
 
         case "Add Employee":
-          addEmployee();
+          await addEmployee();        
           break;
 
         case "Update Employee Role":
-          updateRole();
-
+          await updateRole();
           break;
 
         case "View All Roles":
-          DB.getRoles().then(([rows]) => printTable(rows));
+          await DB.getRoles().then(([rows]) => printTable(rows));
           break;
 
         case "View All Departments":
-          DB.getDepartments().then(([rows]) => printTable(rows)).then(mainMenu());
-          break;
+          await DB.getDepartments()
+            .then(([rows]) => printTable(rows))        
+             break;
 
         case "Add Department":
-          addDepartment();
+         await addDepartment();
           break;
 
         case "Add Role":
-          newRole();
-          break
+         await newRole();
+          break;
 
         default:
           break;
@@ -60,7 +60,6 @@ const mainMenu = () => {
     });
 };
 mainMenu();
-
 
 const addEmployee = async () => {
   const [employeeList] = await DB.getEmployeeList();
@@ -123,7 +122,7 @@ const addDepartment = () => {
       department = {
         name: answers.newDepartment,
       };
-      DB.addDepartment(department).then(([rows]) => printTable(rows));
+      DB.addDepartment(department);
     });
 };
 const updateRole = async () => {
@@ -159,39 +158,39 @@ const updateRole = async () => {
     });
 };
 
-
 const newRole = async () => {
   const [deptList] = await DB.getDepartments();
   const deptArray = deptList.map((department) => ({
     name: department.name,
-    value: department.id,    
+    value: department.id,
   }));
   inquire
-  .prompt([
-    {
-      type: "list",
-      message: "Which department is the new role in?",
-      name: "newRoleDept",
-      choices: deptArray,
-    },
-    {
-      type: "input",
-      message: "New role's title?",
-      name: "roleTitle",
-    },
-    {
-      type: "input",
-      message: "New Role's salary?",
-      name: "roleSalary",
-    },
-  ])
-  .then((answers) => {
-    console.log(answers);
-    const role = {
-      title: answers.roleTitle,
-      salary: answers.roleSalary,
-      department_id: answers.newRoleDept,
-    };
-    DB.addRole(role).then((res) => console.table(res));
-  });
-}
+    .prompt([
+      {
+        type: "list",
+        message: "Which department is the new role in?",
+        name: "newRoleDept",
+        choices: deptArray,
+      },
+      {
+        type: "input",
+        message: "New role's title?",
+        name: "roleTitle",
+      },
+      {
+        type: "input",
+        message: "New Role's salary?",
+        name: "roleSalary",
+      },
+    ])
+    .then((answers) => {
+      console.log(answers);
+      const role = {
+        title: answers.roleTitle,
+        salary: answers.roleSalary,
+        department_id: answers.newRoleDept,
+      };
+      DB.addRole(role).then((res) => console.table(res));
+    });
+};
+
