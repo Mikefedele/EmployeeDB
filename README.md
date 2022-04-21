@@ -15,7 +15,7 @@ A backend CMS application to manage an employee database using Inquirer, mysql2,
 
 
 ## Walk-thru
-[Walk-thru video](https://watch.screencastify.com/v/pI6XYpjgjCGAzj47wmsg)
+[Walk-thru video](https://watch.screencastify.com/v/59onL6lnruT0QmfgQf9U)
 
 ## Github
 
